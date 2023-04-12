@@ -14,15 +14,18 @@
         </select>
       </div>
       <div>
-        <h1>The Star Wars Hangar</h1>
+        <h1>Galaxy Guide: Star Wars</h1>
       </div>
       <div>
-        <button>
-          Load Ships
+        <button @click="loadOrReloadData()">
+          Load Data
         </button>
       </div>
     </nav>
 
+    <div class="itemSliderDiv">
+
+    </div>
 
     <div class="DataContent">
       <div class="Ship">
@@ -104,7 +107,7 @@
 
 
             <div class="Ship">
-        <div>
+        <div @lala="handleClick">
           <h1>Luke Skywalker</h1>
           <p>Birth year: 19BBY </p>
         </div>
@@ -115,7 +118,7 @@
         </div>
         <div>
           <button>Mark as favorite</button>
-          <button>Show More</button>
+          <button @click="handleClick()" >Show More</button>
           <button>Delete</button>
         </div>
       </div>
@@ -123,7 +126,7 @@
 
 
             <div class="Ship">
-        <div>
+        <div @custom-event="handleCustomEvent">
           <h1>Tatooine</h1>
           <p>Diameter:10465 Km </p>
         </div>
@@ -140,13 +143,59 @@
       </div>
 
 
+      <DataCard  @custom-event="handleCustomEvent" :theHihgKing="theHihgKing"/>
 
-
+      <div v-for="(item, index) in starWarsData?.slice(0, 15)" :key="index">
+        <DataCard  @custom-event="handleCustomEvent" :theHihgKing="theHihgKing" />
+      </div>
 
     </div>
 
   </div>
 </template>
+
+<script>
+  import DataCard from "./components/DataCard.vue"
+  import { mapGetters } from 'vuex';
+
+export default {
+  components:{DataCard},
+  data()
+  {
+    return {
+      title:"god KING",
+      theHihgKing:{
+        name:"bretanosSSS"
+      }
+
+    }
+  },
+
+  methods:{
+    handleClick()
+    {
+      console.log("CAESAR")
+    },
+   handleCustomEvent(payload) {
+      console.log('Custom event received with payload:', payload);
+    },
+    loadOrReloadData()
+    {
+      this.$store.dispatch('getStarWarsData')
+    },
+
+  },
+mounted() {
+  this.$store.dispatch('loadStarWarsDataFromLocalStorage')
+}
+  ,
+computed: {
+  ...mapGetters(['starWarsData'])
+}
+}
+</script>
+
+
 
 <style lang="scss">
 * {
@@ -296,5 +345,21 @@
     }
 
   }
+
 }
+  .itemSliderDiv
+  {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    >button
+    {
+      width: 250px;
+      height: 35px;
+      @include center-flex
+    }
+  }
 </style>
