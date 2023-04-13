@@ -1,153 +1,36 @@
 <template>
   <div class="container">
-    <nav class="navbar">
-      <div>
-        <input type="text" placeholder="Search ship by name">
-                <select>
-          <option value="people">All</option>
-          <option value="people">Characters</option>
-          <option value="planets">Planets</option>
-          <option value="starships">Starships</option>
-          <option value="vehicles">Vehicles</option>
-          <option value="species">Species</option>
-          <option value="films">Films</option>
-        </select>
-      </div>
-      <div>
-        <h1>Galaxy Guide: Star Wars</h1>
-      </div>
-      <div>
-        <button @click="loadOrReloadData()">
-          Load Data
-        </button>
-      </div>
-    </nav>
+
 
     <div class="itemSliderDiv">
-
+      <button  @click="decreaseIndex()">Previous</button>
+      <button  @click="increaseIndex()"> Next</button>
     </div>
 
     <div class="DataContent">
-      <div class="Ship">
-        <div>
-          <h1>Sentinel-class landing craft</h1>
-          <p>Model:Imperial I-class Star Destroyer </p>
-        </div>
-        <div>
-          <p>manufacturer: Kuat Drive Yards</p>
-          <p>crew: 47,060 people</p>
-          <p>Type: Ship </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button>Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
 
 
+<div v-for="(item, index) in starWarsData?.slice($store.state.indexToRender.from, $store.state.indexToRender.to)" :key="index">
+      <template v-if="item.category === 'people'">
+        <DataCard   :marked="item.marked"   :name="item.item.name" :type="item.category" :birthYear="item.item.birth_year"   :gender="item.item.gender"  :skinColors="item.item.skin_color"  />
+      </template>
+      <template v-else-if="item.category === 'planets'">
+        <DataCard   :marked="item.marked"  :name="item.item.name"  :type="item.category" :terrain="item.item.terrain"  :population="item.item.population" :diameter="item.item.diameter" />
+      </template>
+      <template v-else-if="item.category === 'films'">
+        <DataCard  :marked="item.marked" :producer="item.item.producer" :episode="item.item.episode_id" :director="item.item.director" :name="item.item.title" :type="item.category" />
+      </template>   
+      <template v-else-if="item.category === 'species'">
+        <DataCard :marked="item.marked"  :classification="item.item.classification" :averageHeight="item.item.average_height" :name="item.item.name" :skinColors="item.item.skin_colors" :type="item.category"  />
+      </template>
+      <template v-else-if="item.category === 'vehicles'">
+        <DataCard :marked="item.marked"   :name="item.item.name"  :type="item.category"  :model="item.item.model" :manufacturer="item.item.manufacturer"   />
+      </template>
+      <template v-else-if="item.category === 'starships'">
+        <DataCard :marked="item.marked"  :name="item.item.name" :model="item.item.model"  :crew="item.item.crew" :manufacturer="item.item.manufacturer" :type="item.category"   />
+      </template>
 
-            <div class="Ship">
-        <div>
-          <h1>Sand Crawler</h1>
-          <p>Model:Digger Crawler</p>
-        </div>
-        <div>
-          <p>manufacturer: Sienar Fleet Systems</p>
-          <p>crew: 1 people</p>
-          <p>Type: Vehicle </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button>Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
-
-
-            <div class="Ship">
-        <div>
-          <h1>Human</h1>
-          <p>Classification:mammal</p>
-        </div>
-        <div>
-          <p>manufacturer: Kuat Drive Yards</p>
-          <p>Average Height: 180</p>
-          <p>Type: Species </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button>Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
-
-
-
-
-
-            <div class="Ship">
-        <div>
-          <h1>A New Hope</h1>
-          <p>Episode: 4 </p>
-        </div>
-        <div>
-          <p>Director: George Lucas</p>
-          <p>Producer: Gary Kurtz, Rick McCallum</p>
-          <p>Type: Film  </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button>Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
-
-
-
-
-            <div class="Ship">
-        <div @lala="handleClick">
-          <h1>Luke Skywalker</h1>
-          <p>Birth year: 19BBY </p>
-        </div>
-        <div>
-          <p>Gender: Male</p>
-          <p>Skin color: fair</p>
-          <p>Type: Character </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button @click="handleClick()" >Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
-
-
-
-            <div class="Ship">
-        <div @custom-event="handleCustomEvent">
-          <h1>Tatooine</h1>
-          <p>Diameter:10465 Km </p>
-        </div>
-        <div>
-          <p>Terrain: Desert</p>
-          <p>Population: 200000 people</p>
-          <p>Type: Planet  </p>
-        </div>
-        <div>
-          <button>Mark as favorite</button>
-          <button>Show More</button>
-          <button>Delete</button>
-        </div>
-      </div>
-
-
-      <DataCard  @custom-event="handleCustomEvent" :theHihgKing="theHihgKing"/>
-
-      <div v-for="(item, index) in starWarsData?.slice(0, 15)" :key="index">
-        <DataCard  @custom-event="handleCustomEvent" :theHihgKing="theHihgKing" />
-      </div>
+    </div>
 
     </div>
 
@@ -157,32 +40,29 @@
 <script>
   import DataCard from "./components/DataCard.vue"
   import { mapGetters } from 'vuex';
+  import { mapActions } from 'vuex';
 
 export default {
   components:{DataCard},
   data()
   {
     return {
-      title:"god KING",
-      theHihgKing:{
-        name:"bretanosSSS"
-      }
-
     }
   },
 
   methods:{
-    handleClick()
-    {
-      console.log("CAESAR")
-    },
-   handleCustomEvent(payload) {
-      console.log('Custom event received with payload:', payload);
-    },
     loadOrReloadData()
     {
       this.$store.dispatch('getStarWarsData')
     },
+    increaseIndex(){
+      this.$store.dispatch("renderNextSetOfItems")
+    },
+    decreaseIndex(){
+      this.$store.dispatch("renderPreviousSetOfItems")
+    },
+    ...mapActions(['changeCategory']),
+    ...mapActions(['searchData'])
 
   },
 mounted() {
@@ -190,7 +70,8 @@ mounted() {
 }
   ,
 computed: {
-  ...mapGetters(['starWarsData'])
+  ...mapGetters(['starWarsData']),
+
 }
 }
 </script>
@@ -230,52 +111,6 @@ computed: {
     padding:  0 100px;
 
   }
-
-.Ship {
-  width: 350px;
-  height: 350px;
-  background-color: rgba(0, 0, 0, 0.897);
-  margin: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  > div {
-    width: 100%;
-    color: white;
-    > p {
-      word-spacing: 3px;
-      font-weight: 700;
-    }
-    > button {
-      width: 150px;
-      height: 25px;
-      margin: 5px;
-      font-weight: 700;
-      transition: 0.4s;
-      cursor: pointer;
-    }
-    > h1 {
-      font-size: 1.4rem;
-      font-weight: 900;
-    }
-  }
-  > div:nth-child(1),
-  > div:nth-child(2) {
-    height: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-  }
-  > div:nth-child(3) {
-    height: 20%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-}
-
-
 
 
 .navbar {
@@ -357,9 +192,47 @@ computed: {
 
     >button
     {
+      background-color: rgba(0, 0, 0, 0.856);
+          vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+      border-radius: 2px;
       width: 250px;
       height: 35px;
-      @include center-flex
+      @include center-flex;
+      color:white;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: 0.4s;
+
+    &:hover {
+      -webkit-animation-name: hvr-pop;
+      animation-name: hvr-pop;
+      -webkit-animation-duration: 0.4s;
+      animation-duration: 0.4s;
+      -webkit-animation-timing-function: linear;
+      animation-timing-function: linear;
+      -webkit-animation-iteration-count: 1;
+      animation-iteration-count: 1;
     }
+    @-webkit-keyframes hvr-pop {
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+@keyframes hvr-pop {
+  50% {
+    -webkit-transform: scale(1.12);
+    transform: scale(1.1);
+  }
+}
+}
+
+
+
   }
 </style>
