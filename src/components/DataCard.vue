@@ -13,7 +13,7 @@
 
                 <p v-if="type === 'planets'" class="show">Diameter: {{diameter}} KM </p>
 
-                <p v-if="type === 'people'" class="show">Birth year: {{birthYear}} KM </p>
+                <p v-if="type === 'people'" class="show">Birth year: {{birthYear}}  </p>
                 </div>
                 <div>
                   <p v-if="type === 'starships'" class="show">Manufacturer: {{manufacturer}} </p>

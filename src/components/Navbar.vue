@@ -24,10 +24,10 @@
     </nav>
 </template>
 <script>
+  import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
 
 export default {
-
   methods:{
     loadOrReloadData()
     {
@@ -37,29 +37,23 @@ export default {
     ...mapActions(['searchData'])
 
   },
-mounted() {
-  this.$store.dispatch('loadStarWarsDataFromLocalStorage')
+
+computed: {
+  ...mapGetters(['starWarsData']),
+
 }
-  ,
 }
 </script>
 
 
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-}
 
 @mixin center-flex {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .navbar {
   width: 100%;
