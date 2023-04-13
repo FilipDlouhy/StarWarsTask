@@ -3,22 +3,22 @@
 
     <div v-for="(item, index) in starWarsData?.slice($store.state.indexToRender.from, $store.state.indexToRender.to)" :key="index">
       <template v-if="item.category === 'people'">
-        <DataCard   :marked="item.marked"   :name="item.item.name" :type="item.category" :birthYear="item.item.birth_year"   :gender="item.item.gender"  :skinColors="item.item.skin_color"  />
+        <DataCard :id="item.id"  :marked="item.marked"   :name="item.item.name" :type="item.category" :birthYear="item.item.birth_year"   :gender="item.item.gender"  :skinColors="item.item.skin_color"  />
       </template>
       <template v-else-if="item.category === 'planets'">
-        <DataCard   :marked="item.marked"  :name="item.item.name"  :type="item.category" :terrain="item.item.terrain"  :population="item.item.population" :diameter="item.item.diameter" />
+        <DataCard :id="item.id"   :marked="item.marked"  :name="item.item.name"  :type="item.category" :terrain="item.item.terrain"  :population="item.item.population" :diameter="item.item.diameter" />
       </template>
       <template v-else-if="item.category === 'films'">
-        <DataCard  :marked="item.marked" :producer="item.item.producer" :episode="item.item.episode_id" :director="item.item.director" :name="item.item.title" :type="item.category" />
+        <DataCard :id="item.id"  :marked="item.marked" :producer="item.item.producer" :episode="item.item.episode_id" :director="item.item.director" :name="item.item.title" :type="item.category" />
       </template>   
       <template v-else-if="item.category === 'species'">
-        <DataCard :marked="item.marked"  :classification="item.item.classification" :averageHeight="item.item.average_height" :name="item.item.name" :skinColors="item.item.skin_colors" :type="item.category"  />
+        <DataCard :id="item.id" :marked="item.marked"  :classification="item.item.classification" :averageHeight="item.item.average_height" :name="item.item.name" :skinColors="item.item.skin_colors" :type="item.category"  />
       </template>
       <template v-else-if="item.category === 'vehicles'">
-        <DataCard :marked="item.marked"   :name="item.item.name"  :type="item.category"  :model="item.item.model" :manufacturer="item.item.manufacturer"   />
+        <DataCard :id="item.id" :marked="item.marked"   :name="item.item.name"  :type="item.category"  :model="item.item.model" :manufacturer="item.item.manufacturer"   />
       </template>
       <template v-else-if="item.category === 'starships'">
-        <DataCard :marked="item.marked"  :name="item.item.name" :model="item.item.model"  :crew="item.item.crew" :manufacturer="item.item.manufacturer" :type="item.category"   />
+        <DataCard :id="item.id" :marked="item.marked"  :name="item.item.name" :model="item.item.model"  :crew="item.item.crew" :manufacturer="item.item.manufacturer" :type="item.category"   />
       </template>
 
     </div>

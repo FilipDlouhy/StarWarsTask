@@ -1,3 +1,4 @@
+import uuid from 'react-uuid';
 import { createStore } from 'vuex'
 
 export default createStore({
@@ -46,8 +47,10 @@ export default createStore({
             const categoryData = []
             const response = await fetch(categoryUrl)
             const data = await response.json()
-            data.results.map((item,index)=>{
-              categoryData.push({category:category,item:item,marked:false,id:`https://swapi.dev/api/${category}/${index+1}/`})
+            data.results.map((item)=>{
+              const id = uuid()
+              categoryData.push({category:category,item:item,marked:false,id:id})
+
             })
             results.push(...categoryData)
             categoryUrl = data.next
@@ -191,8 +194,69 @@ export default createStore({
         })
       }
       commit('SET_STAR_WARS_DATA', arr)
+    },
+    setAsFavorite({commit},id)
+    {
+      const arr = []
+      const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
+      const arrAllNew = []
+      this.state.starWarsData.map((data)=>{
+        if(data.id === id)
+        {
+          arr.push({category:data.category,item:data.item,marked:true,id:data.id})
+        }
+        else
+        {
+          arr.push(data)
+        }
+      })
+      console.log(arr)
+
+
+      arrAll.map((data)=>{
+        if(data.id === id)
+        {
+          arrAllNew.push({category:data.category,item:data.item,marked:true,id:data.id})
+        }
+        else
+        {
+          arrAllNew.push(data)
+        }
+      })
+      localStorage.setItem('starWarsData', JSON.stringify(arr))
+      commit('SET_STAR_WARS_DATA', arr)
+    },
+    removeFromFavorites({commit},id)
+    {
+      const arr = []
+      const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
+      const arrAllNew = []
+      this.state.starWarsData.map((data)=>{
+        if(data.id === id)
+        {
+          arr.push({category:data.category,item:data.item,marked:false,id:data.id})
+        }
+        else
+        {
+          arr.push(data)
+        }
+      })
+      arrAll.map((data)=>{
+        if(data.id === id)
+        {
+          arrAllNew.push({category:data.category,item:data.item,marked:false,id:data.id})
+        }
+        else
+        {
+          arrAllNew.push(data)
+        }
+      })
+      console.log(arr)
+      localStorage.setItem('starWarsData', JSON.stringify(arr))
+
+      commit('SET_STAR_WARS_DATA', arr)
     }
-    
+
 
   },
   getters: {

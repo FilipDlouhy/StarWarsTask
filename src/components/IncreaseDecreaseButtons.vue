@@ -80,7 +80,7 @@ mounted() {
 }
 @keyframes hvr-pop {
   50% {
-    -webkit-transform: scale(1.12);
+    -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
 }

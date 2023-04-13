@@ -37,7 +37,8 @@
                 <p>Type:  {{ type.charAt(0).toUpperCase() + type.slice(1) }}  </p>
                 </div>
                 <div>
-                <button>Mark as favorite</button>
+                <button v-if="marked === false" @click="setAsFavorite(id)">Mark as favorite</button>
+                <button v-if="marked === true" @click="removeFromFavorites(id)">Unmark</button>
                 <button >Show More</button>
                 <button>Delete</button>
                 </div>
@@ -48,6 +49,8 @@
 </template>
 
 <script>
+
+  import { mapActions } from 'vuex';
 export default {
   props: {
     name: {
@@ -118,8 +121,18 @@ export default {
     {
       type: Boolean,
       default: null
+    },
+    id:
+    {
+      type: String,
+      default: null
     }
-  }
+  },
+  methods:{
+    ...mapActions(['setAsFavorite']),
+    ...mapActions(['removeFromFavorites']),
+
+  },
 }
 </script>
  
