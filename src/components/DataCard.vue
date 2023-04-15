@@ -37,10 +37,10 @@
                 <p>Type:  {{ type.charAt(0).toUpperCase() + type.slice(1) }}  </p>
                 </div>
                 <div>
-                <button v-if="marked === false" @click="setAsFavorite(id)">Mark as favorite</button>
-                <button v-if="marked === true" @click="removeFromFavorites(id)">Unmark</button>
+                <button v-if="marked === false" @click="setFavorite({id:id,marked:true})">Mark as favorite</button>
+                <button v-if="marked === true" @click="setFavorite({id:id,marked:false})">Unmark</button>
                 <button >Show More</button>
-                <button>Delete</button>
+                <button   @click="modalToggle({show:true,id:id})">Delete</button>
                 </div>
       </div>
 
@@ -129,8 +129,8 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['setAsFavorite']),
-    ...mapActions(['removeFromFavorites']),
+    ...mapActions(['setFavorite']),
+    ...mapActions(['modalToggle'])
 
   },
 }

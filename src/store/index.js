@@ -9,7 +9,9 @@ export default createStore({
       from:0,
       to:30
     },
-    categoryToRender:"all"
+    categoryToRender:"all",
+    showModal:false,
+    idToDelete:""
   },
   mutations: {
     SET_STAR_WARS_DATA(state, data) {
@@ -18,11 +20,19 @@ export default createStore({
     SET_INDEX_TO_RENDER(state, data) {
       state.indexToRender.from = data.from;
       state.indexToRender.to = data.to;
-      console.log(state.indexToRender)
       
     },
     SET_CATEGORY_TO_RENDER(state, data) {
       state.categoryToRender = data;
+    },
+    SET_SHOW_MODAL(state,show)
+    {
+      state.showModal = show;
+    },
+    SET_ID_TO_DELETE(state,id)
+    {
+      state.idToDelete = id;
+      console.log(id)
     }
   },
   actions: {
@@ -37,6 +47,7 @@ export default createStore({
     },
     async getStarWarsData({ commit }) {
       localStorage.clear()
+      commit('SET_STAR_WARS_DATA', []);
       let results = []
         let url = 'https://swapi.dev/api/'
         const response = await fetch(url)
@@ -195,28 +206,28 @@ export default createStore({
       }
       commit('SET_STAR_WARS_DATA', arr)
     },
-    setAsFavorite({commit},id)
+    setFavorite({commit},object)
     {
       const arr = []
       const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
       const arrAllNew = []
+      console.log(object)
       this.state.starWarsData.map((data)=>{
-        if(data.id === id)
+        if(data.id === object.id)
         {
-          arr.push({category:data.category,item:data.item,marked:true,id:data.id})
+          arr.push({category:data.category,item:data.item,marked:object.marked,id:data.id})
         }
         else
         {
           arr.push(data)
         }
       })
-      console.log(arr)
 
 
       arrAll.map((data)=>{
-        if(data.id === id)
+        if(data.id === object.id)
         {
-          arrAllNew.push({category:data.category,item:data.item,marked:true,id:data.id})
+          arrAllNew.push({category:data.category,item:data.item,marked:object.marked,id:data.id})
         }
         else
         {
@@ -226,41 +237,53 @@ export default createStore({
       localStorage.setItem('starWarsData', JSON.stringify(arr))
       commit('SET_STAR_WARS_DATA', arr)
     },
-    removeFromFavorites({commit},id)
+    deletItem({commit})
     {
-      const arr = []
+
+     const arr = []
       const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
       const arrAllNew = []
       this.state.starWarsData.map((data)=>{
-        if(data.id === id)
-        {
-          arr.push({category:data.category,item:data.item,marked:false,id:data.id})
-        }
-        else
+        if(data.id !== this.state.idToDelete)
         {
           arr.push(data)
         }
       })
       arrAll.map((data)=>{
-        if(data.id === id)
-        {
-          arrAllNew.push({category:data.category,item:data.item,marked:false,id:data.id})
-        }
-        else
+        if(data.id !==this.state.idToDelete)
         {
           arrAllNew.push(data)
         }
       })
-      console.log(arr)
-      localStorage.setItem('starWarsData', JSON.stringify(arr))
-
+      localStorage.setItem('starWarsData', JSON.stringify(arrAllNew))
       commit('SET_STAR_WARS_DATA', arr)
+      commit('SET_SHOW_MODAL', false)
+      commit('SET_ID_TO_DELETE', null)
+    },
+    modalToggle({commit},object)
+    {
+      if(object.event !== "modal")
+      {
+        if(object.id)
+        {
+  
+          commit('SET_SHOW_MODAL', object.show)
+          commit('SET_ID_TO_DELETE', object.id)
+        }
+        else
+        {
+          commit('SET_SHOW_MODAL', object.show)
+        }
+      }
+
+console.log("AAAAA")
+
     }
-
-
   },
   getters: {
     starWarsData: (state) => state.starWarsData,
     indexToRender: (state) => state.indexToRender,
+    showModal: (state) => state.showModal,
+    idToDelete: (state) => state.idToDelete,
   },
 });

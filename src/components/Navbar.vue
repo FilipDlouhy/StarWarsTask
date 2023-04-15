@@ -54,7 +54,6 @@ computed: {
   align-items: center;
   justify-content: center;
 }
-
 .navbar {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.87);
