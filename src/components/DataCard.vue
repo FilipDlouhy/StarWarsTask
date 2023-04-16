@@ -39,7 +39,10 @@
                 <div>
                 <button v-if="marked === false" @click="setFavorite({id:id,marked:true})">Mark as favorite</button>
                 <button v-if="marked === true" @click="setFavorite({id:id,marked:false})">Unmark</button>
-                <button >Show More</button>
+                <button @click="()=>{
+        setItemToShow(id)
+          goToAbout()
+                  }">Show More</button>
                 <button   @click="modalToggle({show:true,id:id})">Delete</button>
                 </div>
       </div>
@@ -130,7 +133,11 @@ export default {
   },
   methods:{
     ...mapActions(['setFavorite']),
-    ...mapActions(['modalToggle'])
+    ...mapActions(['modalToggle']),
+    ...mapActions(['setItemToShow']),
+        goToAbout() {
+      this.$router.push('/about')
+    }
 
   },
 }

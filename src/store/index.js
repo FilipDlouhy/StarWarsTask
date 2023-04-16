@@ -1,4 +1,3 @@
-import uuid from 'react-uuid';
 import { createStore } from 'vuex'
 
 export default createStore({
@@ -11,7 +10,8 @@ export default createStore({
     },
     categoryToRender:"all",
     showModal:false,
-    idToDelete:""
+    idToDelete:"",
+    itemToShow:{}
   },
   mutations: {
     SET_STAR_WARS_DATA(state, data) {
@@ -32,7 +32,11 @@ export default createStore({
     SET_ID_TO_DELETE(state,id)
     {
       state.idToDelete = id;
-      console.log(id)
+    },
+    SET_ITEM_TO_SHOW(state,data)
+    {
+      console.log(data)
+      state.itemToShow = data;
     }
   },
   actions: {
@@ -59,8 +63,7 @@ export default createStore({
             const response = await fetch(categoryUrl)
             const data = await response.json()
             data.results.map((item)=>{
-              const id = uuid()
-              categoryData.push({category:category,item:item,marked:false,id:id})
+              categoryData.push({category:category,item:item,marked:false,id:item.url})
 
             })
             results.push(...categoryData)
@@ -160,7 +163,17 @@ export default createStore({
       const arr = []
       const starWarsData = JSON.parse(localStorage.getItem('starWarsData'))
       console.log(starWarsData.length)
-      if(category !== "all")
+
+      if(category === "marked")
+      {
+        starWarsData.map((data)=>{
+          if(data.marked === true)
+          {
+            arr.push(data)
+          }
+        })
+      }
+      else if(category !== "all")
       {
         starWarsData.map((data)=>{
           if(data.category === category)
@@ -211,11 +224,12 @@ export default createStore({
       const arr = []
       const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
       const arrAllNew = []
-      console.log(object)
       this.state.starWarsData.map((data)=>{
         if(data.id === object.id)
         {
           arr.push({category:data.category,item:data.item,marked:object.marked,id:data.id})
+          commit('SET_ITEM_TO_SHOW', {category:data.category,item:data.item,marked:object.marked,id:data.id})
+
         }
         else
         {
@@ -276,7 +290,14 @@ export default createStore({
         }
       }
 
-console.log("AAAAA")
+
+    },
+    setItemToShow({commit},id)
+    {
+      const items = JSON.parse(localStorage.getItem('starWarsData'))
+      const item = items.find(item => item.id === id);
+      console.log(item)
+      commit('SET_ITEM_TO_SHOW', item)
 
     }
   },
@@ -285,5 +306,6 @@ console.log("AAAAA")
     indexToRender: (state) => state.indexToRender,
     showModal: (state) => state.showModal,
     idToDelete: (state) => state.idToDelete,
+    itemToShow: (state) => state.itemToShow,
   },
 });
