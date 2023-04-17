@@ -79,7 +79,6 @@ export default createStore({
         }
         localStorage.setItem('starWarsData', JSON.stringify(results))
 
-
       commit('SET_STAR_WARS_DATA', results)
     },
 
@@ -122,8 +121,7 @@ export default createStore({
         }
         commit('SET_INDEX_TO_RENDER',newIndex)
       }
-    }
-,
+    },
     renderPreviousSetOfItems({ commit })
     {
       if(this.state.indexToRender.from - 30 > 0)
@@ -162,62 +160,68 @@ export default createStore({
       }
       const arr = []
       const starWarsData = JSON.parse(localStorage.getItem('starWarsData'))
-      console.log(starWarsData.length)
+      if(starWarsData)
+      {
+        if(category === "marked")
+        {
+          starWarsData.map((data)=>{
+            if(data.marked === true)
+            {
+              arr.push(data)
+            }
+          })
+        }
+        else if(category !== "all")
+        {
+          starWarsData.map((data)=>{
+            if(data.category === category)
+            {
+              arr.push(data)
+            }
+          })
+        }
+        else
+        {
+          starWarsData.map((data)=>{
+              arr.push(data)
+          })
+        }
+  
+        commit('SET_INDEX_TO_RENDER', newIdnex)
+        commit('SET_CATEGORY_TO_RENDER', category)
+        commit('SET_STAR_WARS_DATA', arr)
+      }
 
-      if(category === "marked")
-      {
-        starWarsData.map((data)=>{
-          if(data.marked === true)
-          {
-            arr.push(data)
-          }
-        })
-      }
-      else if(category !== "all")
-      {
-        starWarsData.map((data)=>{
-          if(data.category === category)
-          {
-            arr.push(data)
-          }
-        })
-      }
-      else
-      {
-        starWarsData.map((data)=>{
-            arr.push(data)
-        })
-      }
-
-      commit('SET_INDEX_TO_RENDER', newIdnex)
-      commit('SET_CATEGORY_TO_RENDER', category)
-      commit('SET_STAR_WARS_DATA', arr)
     },
     searchData({commit}, searchText) {
       const arr = []
       const starWarsData = JSON.parse(localStorage.getItem('starWarsData'))
-      const lowerCaseSearchTerm = searchText.toLowerCase();
-      if (this.state.categoryToRender !== "all") {
-        starWarsData.map((data) => {
-          if (data.category === this.state.categoryToRender && data.item && data.item.name && data.item.name.toLowerCase().includes(lowerCaseSearchTerm)) {
-            arr.push(data)
-          }
-        })
-      }
-      else if(searchText.length === 0 )
+      if(starWarsData)
       {
-        starWarsData.map((data) => {
-            arr.push(data)
-        })
+        const lowerCaseSearchTerm = searchText.toLowerCase();
+        if (this.state.categoryToRender !== "all") {
+          starWarsData.map((data) => {
+            if (data.category === this.state.categoryToRender && data.item && data.item.name && data.item.name.toLowerCase().includes(lowerCaseSearchTerm)) {
+              arr.push(data)
+            }
+          })
+        }
+        else if(searchText.length === 0 )
+        {
+          starWarsData.map((data) => {
+              arr.push(data)
+          })
+        }
+        else {
+          starWarsData.map((data) => {
+            if (data.item && data.item.name && data.item.name.toLowerCase().includes(lowerCaseSearchTerm)) {
+              arr.push(data)
+            }
+          })
+        }
+        commit('SET_STAR_WARS_DATA', arr)
       }
-      else {
-        starWarsData.map((data) => {
-          if (data.item && data.item.name && data.item.name.toLowerCase().includes(lowerCaseSearchTerm)) {
-            arr.push(data)
-          }
-        })
-      }
-      commit('SET_STAR_WARS_DATA', arr)
+
     },
     setFavorite({commit},object)
     {
@@ -236,7 +240,6 @@ export default createStore({
           arr.push(data)
         }
       })
-
 
       arrAll.map((data)=>{
         if(data.id === object.id)
@@ -290,15 +293,13 @@ export default createStore({
         }
       }
 
-
     },
     setItemToShow({commit},id)
     {
       const items = JSON.parse(localStorage.getItem('starWarsData'))
+      console.log(id)
       const item = items.find(item => item.id === id);
-      console.log(item)
       commit('SET_ITEM_TO_SHOW', item)
-
     }
   },
   getters: {

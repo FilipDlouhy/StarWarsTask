@@ -4,10 +4,9 @@
 
     <div class="bellowNavButtons">
       <button @click="goBack" class="btnBlack">Go Back</button>
-      <button @click="setFavorite({id:id,marked:false})"  v-if="itemToShow.marked === true" class="btnBlue">Unmark</button>
-      <button  @click="setFavorite({id:id,marked:true})" v-if="itemToShow.marked === false" class="btnBlack">Mark</button>
     </div>
-    <h1 class="heading">{{itemToShow.item.name}}</h1>
+    <h1 v-if="item.name" class="heading">{{item.name}}</h1>
+    <h1 v-if="item.title" class="heading">{{item.title}}</h1>
 
     <div  class="dataDisplay">
       <div class="simpleDataDisplay">
@@ -18,13 +17,12 @@
       </div>
 
       <div  v-for="(item, index) in complexData" :key="index" class="complexData" >
-        <h1>{{item.name}}</h1>
+        <h1>{{item.name }}</h1>
 
         <div>
-          <div v-for="(innerData,i) in item.values" :key="i">
+          <div v-for="(innerData,i) in item.values" :key="i">    
               <ComplexDataCard :type="item.name"  :url="innerData"/>
           </div>
-
 
         </div>
 
@@ -35,29 +33,28 @@
 
 <script>
   import Navbar  from "../components/Modal.vue"
-  import ComplexDataCard from "../components/MoreDetails/ComplexDataCard.vue"
+  import ComplexDataCard from "../components/ComplexDataCard.vue"
   import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
 
-
 export default {
     components:{Navbar,ComplexDataCard},
-
   data(){
     return {
         item:{},
         simpleData:[],
         complexData:[],
-        id:""
+        name:"",
     }
   },
 methods:{
   ...mapActions(['setFavorite']),
   renderSimpleData(){
+
     const simpleData = []
     Object.values(this.item).map((data,index)=>
     {
-      if(Array.isArray(data) === false && data.slice(0,6).includes("https") === false && index !== 0)
+      if(Array.isArray(data) === false &&  index !== 0  && data.length < 50 && data.includes("http") === false)
       {
         const str = Object.keys(this.item)[index]
       const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -74,15 +71,13 @@ methods:{
       }
     })
     this.simpleData = simpleData
-  }
-,
-
+  },
     renderComplexData(){
     const complexData = []
-    const pattern = /^https?:\/\/swapi\.dev\/api\/films\/\d+\/$/;
+
     Object.values(this.item).map((data,index)=>
     {
-      if(Array.isArray(data) && data.length >  0 && pattern.test(data) === false)
+      if(Array.isArray(data) && data.length >  0  )
       {
         const str = Object.keys(this.item)[index]
         const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -91,14 +86,11 @@ methods:{
             data.map((url)=>{
                   dataToDisplay.push(url)
             })
-
-
        complexData.push({name:newString,values:dataToDisplay})
       }
     })
-
-
       this.complexData = complexData
+      console.log(complexData)
 },
     goBack() {
       this.$router.push('/')
@@ -107,16 +99,30 @@ methods:{
   mounted() {
     this.item = this.itemToShow.item
     this.id = this.itemToShow.id
+    this.name = this.itemToShow.item.name
     this.renderSimpleData()
     this.renderComplexData()
   },
   computed: {
     ...mapGetters(['itemToShow']),
      
-  }
+  },
+watch: {
+  itemToShow: function(newVal, oldVal) {
+    if(newVal.item.name === undefined)
+    {
+    this.item  = newVal.item
+    }
+    else
+    {
+    this.item  = newVal.item
+    }
+    this.renderSimpleData()
+    this.renderComplexData()
+  } 
 }
-</script>
-
+}
+</script> 
 <style lang="scss">
 * {
   margin: 0;
@@ -126,7 +132,7 @@ methods:{
 }
 .nav
 {
-    width: 100%;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.87);
   height: 100px;
 }
@@ -140,7 +146,6 @@ methods:{
   margin: 30px 0;
   font-size: 3rem;
 }
-
 .dataDisplay {
   width: 100%;
   overflow-x: hidden;
@@ -149,13 +154,12 @@ methods:{
 
 }
 
-  .simpleDataDisplay
-  {
-    width: 100%;
-    margin: 40px 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.simpleDataDisplay{
+  width: 100%;
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   }
 
 .bellowNavButtons {
@@ -194,7 +198,7 @@ methods:{
   margin: 10px;
   border-radius: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -208,7 +212,6 @@ methods:{
     text-align: center;
   }
 }
-
 
 .complexData{
  width: 100%;

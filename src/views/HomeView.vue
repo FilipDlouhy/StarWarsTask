@@ -5,12 +5,11 @@
 
   <div  v-if="starWarsData.length > 0 ">
     <DataDisplay/>
-
   </div>
   <div  v-else>
     <h1 class="heading">No Data</h1>
   </div>
-  <Modal/>
+   <Modal/>
   </div>
 </template>
 
@@ -34,23 +33,21 @@ export default {
 
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-}
-.container {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+  }
+  .container {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+  }
 
-
-}
-
-   .heading{
-     text-align: center;
-     margin-top: 100px;
-    }
+  .heading{
+    text-align: center;
+    margin-top: 100px;
+  }
  
 </style>

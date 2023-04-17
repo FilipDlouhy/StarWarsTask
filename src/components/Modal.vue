@@ -5,29 +5,27 @@
       <button @click="deletItem()">Delete the item</button>
     </div>
   </div>
-
 </template>
 
 <script>
 
   import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
-export default ({
-    data(){
-        return{
-            god:"ASDSADASD"
-        }
-    },
-
-  computed: {
-    ...mapGetters(['showModal']),
-    ...mapGetters(['idToDelete'])
-  },
-    methods:{
-    ...mapActions(['modalToggle']),
-    ...mapActions(['deletItem']),
-  }
-})
+  export default ({
+        data(){
+            return{
+                god:"ASDSADASD"
+            }
+        },
+      computed: {
+        ...mapGetters(['showModal']),
+        ...mapGetters(['idToDelete'])
+      },
+        methods:{
+        ...mapActions(['modalToggle']),
+        ...mapActions(['deletItem']),
+      }
+  })
 </script>
 
 
@@ -42,8 +40,8 @@ export default ({
 
 .modalOverlay
 {
-      opacity: 0; /* start with opacity 0 */
-  animation: fadeIn 0.5s forwards; 
+    opacity: 0; /* start with opacity 0 */
+    animation: fadeIn 0.5s forwards; 
     width: 100vw;
     height: 100vh;
     @include center-flex;
@@ -66,23 +64,23 @@ export default ({
 
         >button 
         {
-            width: 250px;
-            height: 40px;
-            background-color: rgba(0, 0, 0, 0.856);
-            color:white;
-            @include center-flex;
-            font-size: 1.25rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.4s;
-            outline: none;
-            border:none;
-            border-radius: 5px;
-            &:hover
-            {
-                background-color: red;
+          width: 250px;
+          height: 40px;
+          background-color: rgba(0, 0, 0, 0.856);
+          color:white;
+          @include center-flex;
+          font-size: 1.25rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.4s;
+          outline: none;
+          border:none;
+          border-radius: 5px;
+          &:hover
+          {
+            background-color: red;
 
-            }
+          }
         }
      }
 }
