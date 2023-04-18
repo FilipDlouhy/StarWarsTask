@@ -14,31 +14,34 @@
 </template>
 
 <script>
-  import Navbar  from "../components/Navbar.vue"
-  import DataCard from "../components/DataCard.vue"
-  import Modal from "../components/Modal.vue"
+  import Navbar  from "../components/NavigationMenu.vue"
+  import Modal from "../components/DeleteModal.vue"
   import DataDisplay from "../components/DataDisplay.vue"
   import IncreaseDecreaseButtons from "../components/IncreaseDecreaseButtons.vue"
   import { mapGetters } from 'vuex';
 
 export default {
-    components:{Modal,DataCard,Navbar,IncreaseDecreaseButtons,DataDisplay},
+    components:{Modal,Navbar,IncreaseDecreaseButtons,DataDisplay},
 
   computed: {
     ...mapGetters(['starWarsData']),
-
   }
 }
 </script>
 
 
 <style lang="scss">
+@font-face {
+  font-family: 'Star Jedi';
+  src: url('../../Starjedi.ttf') format('truetype');
+}
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Star Jedi', sans-serif;
   }
+  
   .container {
     width: 100vw;
     height: 100vh;
@@ -48,6 +51,7 @@ export default {
   .heading{
     text-align: center;
     margin-top: 100px;
+    font-family: 'Star Wars', sans-serif;
   }
  
 </style>

@@ -41,7 +41,8 @@
   }
   }
 </script>
-  <style lang="scss">
+
+<style lang="scss">
   @mixin center-flex {
     display: flex;
     align-items: center;
@@ -61,8 +62,5 @@
       overflow-y: auto;
       width: 100%;
       padding:  0 100px;
-
     }
-
-
 </style>

@@ -32,13 +32,12 @@
 </template>
 
 <script>
-  import Navbar  from "../components/Modal.vue"
   import ComplexDataCard from "../components/ComplexDataCard.vue"
   import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
 
 export default {
-    components:{Navbar,ComplexDataCard},
+    components:{ComplexDataCard},
   data(){
     return {
         item:{},
@@ -108,8 +107,8 @@ methods:{
      
   },
 watch: {
-  itemToShow: function(newVal, oldVal) {
-    if(newVal.item.name === undefined)
+  itemToShow: function(newVal) {
+    if(newVal.item.name === undefined )
     {
     this.item  = newVal.item
     }
@@ -124,108 +123,111 @@ watch: {
 }
 </script> 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-}
-.nav
-{
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.87);
-  height: 100px;
-}
-.container {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-}
-.heading {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 3rem;
-}
-.dataDisplay {
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 10px;
-
-}
-
-.simpleDataDisplay{
-  width: 100%;
-  margin: 40px 0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  @font-face {
+    font-family: 'Star Jedi';
+    src: url('../../Starjedi.ttf') format('truetype');
   }
-
-.bellowNavButtons {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 50px;
-  margin-top: 20px;
-  > button {
-    width: 200px;
-    height: 30px;
-    border: none;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: 0.4s;
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Star Jedi', sans-serif;
     }
+  .nav
+  {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.87);
+    height: 100px;
   }
-}
-
-.btnBlack {
-  background-color: rgba(0, 0, 0, 0.844);
-}
-.btnBlue {
-  background-color: rgba(4, 80, 243, 0.719);
-}
-.simple {
-  width: 300px;
-  height: 200px;
-  margin: 10px;
-  border-radius: 5px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-  rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
-  padding: 5px;
-  > h1 {
-    font-size: 1.5rem;
+  .container {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
   }
-  > p {
-    font-size: 1.25rem;
+  .heading {
     text-align: center;
+    margin: 30px 0;
+    font-size: 2.5rem;
   }
-}
+  .dataDisplay {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px;
 
-.complexData{
- width: 100%;
- text-align: center;
- margin-bottom: 50px;
- >div
- {
- width: 100%;
-      display: flex;
+  }
+
+  .simpleDataDisplay{
+    width: 100%;
+    margin: 40px 0;
+    display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding-top: 40px;
- }
-}
+    }
 
+  .bellowNavButtons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 50px;
+    margin-top: 20px;
+    > button {
+      width: 200px;
+      height: 30px;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: 0.4s;
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
 
+  .btnBlack {
+    background-color: rgba(0, 0, 0, 0.844);
+  }
+  .btnBlue {
+    background-color: rgba(4, 80, 243, 0.719);
+  }
+  .simple {
+    width: 300px;
+    height: 200px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    text-align: center;
+    padding: 5px;
+    > h1 {
+      font-size: 1.5rem;
+    }
+    > p {
+      font-size: 1.25rem;
+      text-align: center;
+    }
+  }
+
+  .complexData{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 50px;
+  >div
+  {
+  width: 100%;
+        display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-top: 40px;
+  }
+  }
 </style>

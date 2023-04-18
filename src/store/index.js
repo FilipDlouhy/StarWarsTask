@@ -18,6 +18,7 @@ export default createStore({
       state.starWarsData = data;
     },
     SET_INDEX_TO_RENDER(state, data) {
+      console.log(data)
       state.indexToRender.from = data.from;
       state.indexToRender.to = data.to;
       
