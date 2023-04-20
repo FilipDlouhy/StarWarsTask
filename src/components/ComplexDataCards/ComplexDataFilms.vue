@@ -76,7 +76,6 @@
         const allValuesPresent = Object.values(item).every(value => value)
         if (allValuesPresent) {
           this.Film = item
-
         } else {
           this.getData()
         }

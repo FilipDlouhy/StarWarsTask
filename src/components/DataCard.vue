@@ -213,7 +213,7 @@
     width: 400px;
     height: 400px;
     margin: 20px;
-    padding: 15px;
+    padding: 10px;
     border-radius: 5px;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.897);
@@ -223,6 +223,7 @@
   {
     width: 100%;
     height: 100px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: space-around;

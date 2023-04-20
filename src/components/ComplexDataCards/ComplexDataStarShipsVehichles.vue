@@ -96,7 +96,7 @@
 <style lang="scss" scoped>
   .complex {
     width: 440px;
-    height: 330px;
+    height: 350px;
     background-color: rgba(0, 0, 0, 0.764);
     display: flex;
     align-items: center;
@@ -105,7 +105,7 @@
     color: white;
     text-align: center;
     margin: 20px;
-    padding: 10px;
+    padding: 5px;
     > h1 {
       font-size: 2rem;
       letter-spacing: 3px;
