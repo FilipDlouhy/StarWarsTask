@@ -1,15 +1,21 @@
 <template>
   <div class="container">
-  <Navbar/>
-  <IncreaseDecreaseButtons/>
+    <Navbar />
+    <IncreaseDecreaseButtons />
 
-  <div  v-if="starWarsData.length > 0 ">
-    <DataDisplay/>
-  </div>
-  <div  v-else>
-    <h1 class="heading">No Data</h1>
-  </div>
-   <Modal/>
+    <div 
+      v-if="starWarsData.length > 0 "
+    >
+      <DataDisplay />
+    </div>
+    <div  
+      v-else
+    >
+      <h1 class="heading">
+        No Data
+      </h1>
+    </div>
+    <Modal />
   </div>
 </template>
 

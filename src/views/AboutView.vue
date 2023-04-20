@@ -1,127 +1,179 @@
 <template>
   <div class="container">
-    <div class="nav"></div>
-
-    <div class="bellowNavButtons">
-      <button @click="goBack" class="btnBlack">Go Back</button>
-    </div>
-    <h1 v-if="item.name" class="heading">{{item.name}}</h1>
-    <h1 v-if="item.title" class="heading">{{item.title}}</h1>
-
-    <div  class="dataDisplay">
-      <div class="simpleDataDisplay">
-        <div v-for="(data) in simpleData" :key="data.name" class="simple">
-          <h1>{{data.name}}</h1>
-          <p>{{data.value}}</p>
-        </div>
+    <div class="nav">
+      <div class="bellowNavButtons">
+        <button 
+          class="btnBlack"
+          @click="goBack" 
+        >
+          Go back
+        </button>
       </div>
+      <h1 
+        v-if="item.name" 
+        class="heading"
+      >
+        {{ item.name }}
+      </h1>
+      <h1 
+        v-if="item.title" 
+        class="heading"
+      >
+        {{ item.title }} 
+      </h1>
 
-      <div  v-for="(item, index) in complexData" :key="index" class="complexData" >
-        <h1>{{item.name }}</h1>
-
-        <div>
-          <div v-for="(innerData,i) in item.values" :key="i">    
-              <ComplexDataCard :type="item.name"  :url="innerData"/>
+      <div class="dataDisplay">
+        <div class="simpleDataDisplay">
+          <div 
+            v-for="(data) in simpleData" 
+            :key="data.name" 
+            class="simple"
+          >
+            <h1>{{ data.name }}</h1>
+            <p>{{ data.value }}</p>
           </div>
-
         </div>
 
+        <div  
+          v-for="(data, index) in complexData" 
+          :key="index" 
+          class="complexData"
+        >
+          <h1>{{ data.name }}</h1>
+
+          <div>
+            <div 
+              v-for="(innerData,i) in data.values" 
+              :key="i"
+            > 
+              <ComlexDataPeople 
+                v-if="data.name.toLowerCase()==='pilots'|| data.name.toLowerCase()==='people' || data.name.toLowerCase()==='characters' || data.name.toLowerCase()==='residents' "
+                :type="data.name"  
+                :url="innerData"  
+              />
+              
+              <ComplexDataFilms   
+                v-if="data.name.toLowerCase()==='films'"
+                :type="data.name"
+                :url="innerData" 
+              />
+              
+              <ComplexDataPlanets  
+                v-if="data.name.toLowerCase()==='planets'"  
+                :type="data.name"  
+                :url="innerData"  
+              />
+              
+              <ComplexDataSpecies   
+                v-if="data.name.toLowerCase()==='species'"  
+                :type="data.name"  
+                :url="innerData"  
+              />
+              
+              <ComplexDataStarShipsVehichles  
+                v-if="data.name.toLowerCase()==='vehicles' || data.name.toLowerCase()==='starships'"
+                :type="data.name"
+                :url="innerData"   
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import ComplexDataCard from "../components/ComplexDataCard.vue"
+  import ComlexDataPeople from "../components/ComplexDataCards/ComlexDataPeople.vue"
+  import ComplexDataFilms from "../components/ComplexDataCards/ComplexDataFilms.vue"
+  import ComplexDataPlanets from "../components/ComplexDataCards/ComplexDataPlanets.vue"
+  import ComplexDataSpecies from "../components/ComplexDataCards/ComplexDataSpecies.vue"
+  import ComplexDataStarShipsVehichles from "../components/ComplexDataCards/ComplexDataStarShipsVehichles.vue"
   import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
 
-export default {
-    components:{ComplexDataCard},
-  data(){
-    return {
-        item:{},
-        simpleData:[],
-        complexData:[],
-        name:"",
-    }
-  },
-methods:{
-  ...mapActions(['setFavorite']),
-  renderSimpleData(){
-
-    const simpleData = []
-    Object.values(this.item).map((data,index)=>
-    {
-      if(Array.isArray(data) === false &&  index !== 0  && data.length < 50 && data.includes("http") === false)
-      {
-        const str = Object.keys(this.item)[index]
-      const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-      if(newString === "Created" || newString === "Edited" ) 
-      {
-        const date = new Date(data)
-       simpleData.push({name:newString,value:date.toDateString()})
-
-      }else
-      {
-       simpleData.push({name:newString,value:data})
-
+  export default {
+      components:{ComlexDataPeople,ComplexDataFilms,ComplexDataPlanets,ComplexDataSpecies,ComplexDataStarShipsVehichles},
+    data(){
+      return {
+          item:{},
+          simpleData:[],
+          complexData:[],
+          name:"",
       }
-      }
-    })
-    this.simpleData = simpleData
-  },
-    renderComplexData(){
-    const complexData = []
+    },
+      computed: {
+      ...mapGetters(['itemToShow']),
 
-    Object.values(this.item).map((data,index)=>
-    {
-      if(Array.isArray(data) && data.length >  0  )
+    },
+  watch: {
+    itemToShow: function(newVal) {
+      if(newVal.item.name !== undefined )
       {
-        const str = Object.keys(this.item)[index]
-        const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        const dataToDisplay = []
-       
-            data.map((url)=>{
-                  dataToDisplay.push(url)
-            })
-       complexData.push({name:newString,values:dataToDisplay})
+      this.item  = newVal.item
       }
-    })
-      this.complexData = complexData
-      console.log(complexData)
-},
-    goBack() {
-      this.$router.push('/')
+      else
+      {
+      this.item  = newVal.item
+      }
+      this.renderSimpleData()
+      this.renderComplexData()
     }
-},
-  mounted() {
-    this.item = this.itemToShow.item
-    this.id = this.itemToShow.id
-    this.name = this.itemToShow.item.name
-    this.renderSimpleData()
-    this.renderComplexData()
   },
-  computed: {
-    ...mapGetters(['itemToShow']),
-     
+      mounted() {
+      this.item = this.itemToShow.item
+      this.id = this.itemToShow.id
+      this.name = this.itemToShow.item.name
+      this.renderSimpleData()
+      this.renderComplexData()
+    },
+
+  methods:{
+    ...mapActions(['setFavorite']),
+    renderSimpleData(){
+
+      const simpleData = []
+      Object.values(this.item).map((data,index)=>{
+        if (data && Array.isArray(data) === false && index !== 0 && data.length < 50 && data.includes("http") === false) {
+          const str = Object.keys(this.item)[index];
+          const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+          if (newString === "Created" || newString === "Edited" ) {
+            const date = new Date(data);
+            simpleData.push({name:newString,value:date.toDateString()});
+          } else {
+            simpleData.push({name:newString,value:data});
+          }
+        }
+      });
+      this.simpleData = simpleData;
+    },
+      renderComplexData(){
+      const complexData = []
+
+      Object.values(this.item).map((data,index)=>
+      {
+        if(Array.isArray(data) && data.length >  0  )
+        {
+          const str = Object.keys(this.item)[index]
+          const newString = str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+          const dataToDisplay = []
+
+          data.map((url)=>{
+                    dataToDisplay.push(url)
+              })
+        complexData.push({name:newString,values:dataToDisplay})
+        }
+      })
+        this.complexData = complexData
   },
-watch: {
-  itemToShow: function(newVal) {
-    if(newVal.item.name === undefined )
-    {
-    this.item  = newVal.item
-    }
-    else
-    {
-    this.item  = newVal.item
-    }
-    this.renderSimpleData()
-    this.renderComplexData()
-  } 
-}
-}
-</script> 
+      goBack() {
+        this.$router.push('/')
+      }
+  },
+
+  }
+</script>
+
 <style lang="scss">
   @font-face {
     font-family: 'Star Jedi';
@@ -138,6 +190,7 @@ watch: {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.87);
     height: 100px;
+    padding: 30px;
   }
   .container {
     width: 100vw;
@@ -146,7 +199,6 @@ watch: {
   }
   .heading {
     text-align: center;
-    margin: 30px 0;
     font-size: 2.5rem;
   }
   .dataDisplay {
@@ -171,7 +223,6 @@ watch: {
     align-items: center;
     justify-content: space-around;
     height: 50px;
-    margin-top: 20px;
     > button {
       width: 200px;
       height: 30px;
@@ -208,6 +259,7 @@ watch: {
     flex-direction: column;
     text-align: center;
     padding: 5px;
+    letter-spacing: 4px;
     > h1 {
       font-size: 1.5rem;
     }

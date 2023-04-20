@@ -45,9 +45,7 @@ export default createStore({
       const starWarsData = localStorage.getItem('starWarsData');
       if (starWarsData) {
         const parsedData = JSON.parse(starWarsData);
-        const shuffledData = parsedData.sort(() => Math.random() - 0.5); // Shuffle the array
-        console.log(shuffledData);
-        commit('SET_STAR_WARS_DATA', shuffledData);
+        commit('SET_STAR_WARS_DATA', parsedData);
       }
     },
     async getStarWarsData({ commit }) {

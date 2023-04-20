@@ -1,12 +1,20 @@
 <template>
   <div>
     <h1>{{ name }}</h1>
-    <p class="show">Model: {{ model }} </p>
-  </div>
-  <div>
-    <p class="show">Manufacturer: {{ manufacturer }} </p>
-    <p class="show">Crew: {{ crew }} people </p>
-    <p>Type: {{ type.charAt(0).toUpperCase() + type.slice(1) }}</p>
+    <div>
+      <p class="show">
+        Model: {{ model }}
+      </p>
+      <p class="show">
+        Manufacturer: {{ manufacturer }}
+      </p>
+      <p class="show">
+        Crew: {{ crew }}
+      </p>
+    </div>
+    <div>
+      <p>Type: {{ type.charAt(0).toUpperCase() + type.slice(1) }}</p>
+    </div>
   </div>
 </template>
 
@@ -23,15 +31,15 @@ export default {
     },
     model: {
       type: String,
-      required: false
+      required: true
     },
     manufacturer: {
       type: String,
-      required: false
+      required: true
     },
     crew: {
       type: Number,
-      required: false
+      required: true
     }
   }
 }
@@ -39,12 +47,18 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  height: 35%;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   color: white;
+  >div
+  {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  }
   > p {
     word-spacing: 5px;
     font-weight: 700;
@@ -52,7 +66,7 @@ div {
     letter-spacing: 4px;
   }
   > h1 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 900;
     letter-spacing: 4px;
   }

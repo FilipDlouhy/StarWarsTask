@@ -1,12 +1,20 @@
 <template>
   <div>
-    <h1>{{name}}</h1>
-    <p v-if="type === 'people'" class="show">Birth year: {{birthYear}}</p>
-  </div>
-  <div>
-    <p v-if="type === 'people'" class="show">Gender: {{gender}}</p>
-    <p v-if="type === 'people'" class="show">Skin color: {{skinColors}}</p>
-    <p>Type: {{ type.charAt(0).toUpperCase() + type.slice(1) }}</p>
+    <h1>{{ name }}</h1>
+    <div>
+      <p class="show">
+        Birth year: {{ birthYear }}
+      </p>
+      <p class="show">
+        Gender: {{ gender }}
+      </p>
+      <p class="show">
+        Skin color: {{ skinColors }}
+      </p>
+    </div>
+    <div>
+      <p>Type: {{ type.charAt(0).toUpperCase() + type.slice(1) }}</p>
+    </div>
   </div>
 </template>
 
@@ -23,24 +31,25 @@
       },
       birthYear: {
         type: String,
-        required: false
+        required: true
       },
       gender: {
         type: String,
-        required: false
+        required: true
       },
       skinColors: {
         type: String,
-        required: false
+        required: true
       }
     }
+    ,
   }
 </script>
 
 <style lang="scss" scoped>
   div {
     color: white;
-    height: 35%;
+    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,7 +63,7 @@
     }
     
     > h1 {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       font-weight: 900;
       letter-spacing: 4px;
     }

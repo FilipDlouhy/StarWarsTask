@@ -2,20 +2,35 @@
   <nav class="navbar">
     <div>
       <input
-        @input="searchData($event.target.value)"
         type="text"
         placeholder="Search  by name"
-        value=""
-      />
+        @input="searchData($event.target.value)"
+      >
       <select @change="changeCategory($event.target.value)">
-        <option value="all">All</option>
-        <option value="people">Characters</option>
-        <option value="planets">Planets</option>
-        <option value="starships">Starships</option>
-        <option value="vehicles">Vehicles</option>
-        <option value="species">Species</option>
-        <option value="films">Films</option>
-        <option value="marked">Marked</option>
+        <option value="all">
+          All
+        </option>
+        <option value="people">
+          Characters
+        </option>
+        <option value="planets">
+          Planets
+        </option>
+        <option value="starships">
+          Starships
+        </option>
+        <option value="vehicles">
+          Vehicles
+        </option>
+        <option value="species">
+          Species
+        </option>
+        <option value="films">
+          Films
+        </option>
+        <option value="marked">
+          Marked
+        </option>
       </select>
     </div>
 
@@ -41,29 +56,8 @@
         show:false,
       }
     },
-    methods:{
-      loadOrReloadData()
-      {
-        this.$store.dispatch('getStarWarsData')
-      },
-      ...mapActions(['changeCategory']),
-      ...mapActions(['searchData'])
-
-    },
-
-  computed: {
+          computed: {
     ...mapGetters(['starWarsData']),
-  },
-  mounted(){
-      const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
-      if(arrAll)
-      {
-        this.show = true
-      }
-      else
-      {
-        this.show = false
-      }
   },
   watch: {
     itemToShow: function() {
@@ -77,7 +71,29 @@
         this.show = false
       }
     }
-  }}
+  },
+  mounted(){
+      const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
+      if(arrAll)
+      {
+        this.show = true
+      }
+      else
+      {
+        this.show = false
+      }
+  },
+
+  methods:{
+    loadOrReloadData()
+    {
+      this.$store.dispatch('getStarWarsData')
+    },
+    ...mapActions(['changeCategory']),
+    ...mapActions(['searchData'])
+
+    },
+  }
 </script>
 
 <style lang="scss">

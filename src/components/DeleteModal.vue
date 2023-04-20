@@ -1,8 +1,14 @@
 <template>
-  <div @click="modalToggle({show:false,id:null, event:$event.target.id})" v-if="showModal" class="modalOverlay">
+  <div 
+    v-if="showModal"
+    class="modalOverlay"
+    @click="modalToggle({show:false,id:null, event:$event.target.id})" 
+  >
     <div id="modal">
       <h1>Do you want to Delete</h1>
-      <button @click="deletItem()">Delete the item</button>
+      <button @click="deletItem()">
+        Delete the item
+      </button>
     </div>
   </div>
 </template>
@@ -12,11 +18,6 @@
   import { mapGetters } from 'vuex';
   import { mapActions } from 'vuex';
   export default ({
-        data(){
-            return{
-                god:"ASDSADASD"
-            }
-        },
       computed: {
         ...mapGetters(['showModal']),
         ...mapGetters(['idToDelete'])
@@ -29,7 +30,7 @@
 </script>
 
 
-<style lang="scss" >
+<style lang="scss">
 
 
 @mixin center-flex {

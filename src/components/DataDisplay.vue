@@ -1,28 +1,77 @@
 <template>
-    <div class="DataContent">
-
-    <div v-for="(item, index) in starWarsData?.slice($store.state.indexToRender.from, $store.state.indexToRender.to)" :key="index">
+  <div class="DataContent">
+    <div 
+      v-for="(item, index) in starWarsData?.slice($store.state.indexToRender.from, $store.state.indexToRender.to)" 
+      :key="index"
+    >
       <template v-if="item.category === 'people'">
-        <DataCard :id="item.id"  :marked="item.marked"   :name="item.item.name" :type="item.category" :birthYear="item.item.birth_year"   :gender="item.item.gender"  :skinColors="item.item.skin_color"  />
+        <DataCard 
+          :id="item.id"  
+          :marked="item.marked"   
+          :name="item.item.name" 
+          :type="item.category" 
+          :birth-year="item.item.birth_year"
+          :gender="item.item.gender"  
+          :skin-colors="item.item.skin_color"  
+        />
       </template>
       <template v-else-if="item.category === 'planets'">
-        <DataCard :id="item.id"   :marked="item.marked"  :name="item.item.name"  :type="item.category" :terrain="item.item.terrain"  :population="item.item.population" :diameter="item.item.diameter" />
+        <DataCard 
+          :id="item.id"   
+          :marked="item.marked"  
+          :name="item.item.name"  
+          :type="item.category" 
+          :terrain="item.item.terrain"  
+          :population="item.item.population" 
+          :diameter="item.item.diameter" 
+        />
       </template>
       <template v-else-if="item.category === 'films'">
-        <DataCard :id="item.id"  :marked="item.marked" :producer="item.item.producer" :episode="item.item.episode_id" :director="item.item.director" :name="item.item.title" :type="item.category" />
+        <DataCard 
+          :id="item.id"  
+          :marked="item.marked" 
+          :producer="item.item.producer" 
+          :episode="item.item.episode_id" 
+          :director="item.item.director" 
+          :name="item.item.title" 
+          :type="item.category" 
+        />
       </template>   
       <template v-else-if="item.category === 'species'">
-        <DataCard :id="item.id" :marked="item.marked"  :classification="item.item.classification" :averageHeight="item.item.average_height" :name="item.item.name" :skinColors="item.item.skin_colors" :type="item.category"  />
+        <DataCard 
+          :id="item.id" 
+          :marked="item.marked"  
+          :classification="item.item.classification" 
+          :average-height="item.item.average_height" 
+          :name="item.item.name" 
+          :skin-colors="item.item.skin_colors" 
+          :type="item.category"  
+        />
       </template>
       <template v-else-if="item.category === 'vehicles'">
-        <DataCard :id="item.id" :marked="item.marked"   :name="item.item.name"  :type="item.category"  :crew="item.item.crew" :model="item.item.model" :manufacturer="item.item.manufacturer"   />
+        <DataCard 
+          :id="item.id" 
+          :marked="item.marked"   
+          :name="item.item.name"  
+          :type="item.category"  
+          :crew="item.item.crew" 
+          :model="item.item.model" 
+          :manufacturer="item.item.manufacturer"  
+        />
       </template>
       <template v-else-if="item.category === 'starships'">
-        <DataCard :id="item.id" :marked="item.marked"  :name="item.item.name" :model="item.item.model"  :crew="item.item.crew" :manufacturer="item.item.manufacturer" :type="item.category"   />
+        <DataCard 
+          :id="item.id" 
+          :marked="item.marked"  
+          :name="item.item.name" 
+          :model="item.item.model"  
+          :crew="item.item.crew" 
+          :manufacturer="item.item.manufacturer" 
+          :type="item.category"  
+        />
       </template>
-
     </div>
-        </div>
+  </div>
 </template>
 
 <script>
@@ -31,14 +80,14 @@
 
   export default {
     components:{DataCard},
+      computed: {
+    ...mapGetters(['starWarsData']),
+  },
   mounted() {
     this.$store.dispatch('loadStarWarsDataFromLocalStorage')
   }
     ,
-  computed: {
-    ...mapGetters(['starWarsData']),
 
-  }
   }
 </script>
 

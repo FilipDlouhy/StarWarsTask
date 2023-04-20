@@ -1,10 +1,20 @@
 <template>
   <div class="itemSliderDiv">
     <div>
-      <button v-if="$store.state.indexToRender.from !== 0" @click="decreaseIndex()">Previous</button>
+      <button 
+        v-if="$store.state.indexToRender.from !== 0" 
+        @click="decreaseIndex()"
+      >
+        Previous
+      </button>
     </div>
     <div>
-      <button v-if="$store.state.indexToRender.to !== starWarsData.length" @click="increaseIndex()">Next</button>
+      <button 
+        v-if="$store.state.indexToRender.to !== starWarsData.length" 
+        @click="increaseIndex()"
+      >
+        Next
+      </button>
     </div>
   </div>
 </template>
@@ -13,6 +23,12 @@
 import { mapGetters } from 'vuex';
 
 export default {
+    computed: {
+    ...mapGetters(['starWarsData']),
+  },
+  mounted() {
+    this.$store.dispatch('loadStarWarsDataFromLocalStorage')
+  },
   methods: {
     increaseIndex() {
       this.$store.dispatch("renderNextSetOfItems")
@@ -21,12 +37,7 @@ export default {
       this.$store.dispatch("renderPreviousSetOfItems")
     },
   },
-  computed: {
-    ...mapGetters(['starWarsData']),
-  },
-  mounted() {
-    this.$store.dispatch('loadStarWarsDataFromLocalStorage')
-  }
+
 }
 </script>
 
