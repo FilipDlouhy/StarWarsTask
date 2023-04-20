@@ -94,7 +94,7 @@
 
 <script>
   import Films  from "./DataCardRenderOptions/DataFilms.vue"
-  import Yoda from "../../Yoda.png"
+  import Yoda from "../../assets/Yoda.png"
   import People  from "./DataCardRenderOptions/DataPeople.vue"
   import Planet  from "./DataCardRenderOptions/DataPlanet.vue"
   import Species  from "./DataCardRenderOptions/DataSpecies.vue"

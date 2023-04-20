@@ -177,7 +177,7 @@
 <style lang="scss">
   @font-face {
     font-family: 'Star Jedi';
-    src: url('../../Starjedi.ttf') format('truetype');
+    src: url('../../assets/Starjedi.ttf') format('truetype');
   }
     * {
       margin: 0;

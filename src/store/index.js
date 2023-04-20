@@ -8,7 +8,7 @@ export default createStore({
       from:0,
       to:30
     },
-    categoryToRender:"all",
+    categoryToRender:"starships",
     showModal:false,
     idToDelete:"",
     itemToShow:{}
@@ -36,7 +36,6 @@ export default createStore({
     },
     SET_ITEM_TO_SHOW(state,data)
     {
-      console.log(data)
       state.itemToShow = data;
     }
   },
@@ -227,18 +226,29 @@ export default createStore({
       const arr = []
       const arrAll = JSON.parse(localStorage.getItem('starWarsData'))
       const arrAllNew = []
-      this.state.starWarsData.map((data)=>{
-        if(data.id === object.id)
-        {
-          arr.push({category:data.category,item:data.item,marked:object.marked,id:data.id})
-          commit('SET_ITEM_TO_SHOW', {category:data.category,item:data.item,marked:object.marked,id:data.id})
+      if(this.state.categoryToRender === "marked")
+      {
+        this.state.starWarsData.map((data)=>{
+          if(data.id !== object.id)
+          {
+            arr.push(data)
+          }
+        })
+      }
+      else
+      {
+        this.state.starWarsData.map((data)=>{
+          if(data.id === object.id)
+          {
+            arr.push({category:data.category,item:data.item,marked:object.marked,id:data.id})
+          }
+          else
+          {
+            arr.push(data)
+          }
+        })
+      }
 
-        }
-        else
-        {
-          arr.push(data)
-        }
-      })
 
       arrAll.map((data)=>{
         if(data.id === object.id)
@@ -250,7 +260,7 @@ export default createStore({
           arrAllNew.push(data)
         }
       })
-      localStorage.setItem('starWarsData', JSON.stringify(arr))
+      localStorage.setItem('starWarsData', JSON.stringify(arrAllNew))
       commit('SET_STAR_WARS_DATA', arr)
     },
     deletItem({commit})
