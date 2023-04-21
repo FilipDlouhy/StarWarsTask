@@ -24,4 +24,9 @@
       margin:  10px 0;
       letter-spacing: 3px;
         }
+    @media (max-width:500px) {
+      p{
+        font-size: 0.8rem;
+      }
+    }
 </style>
