@@ -224,12 +224,11 @@ export default createStore({
               arr.push(data)
           })
         }
-        localStorage.setItem("categoryToRender",JSON.stringify(category))
         commit('SET_INDEX_TO_RENDER', newIdnex)
         commit('SET_CATEGORY_TO_RENDER', category)
         commit('SET_STAR_WARS_DATA', arr)
       }
-
+      localStorage.setItem("categoryToRender",JSON.stringify(category))
     },
     searchData({commit}, searchText) {
       const arr = []
