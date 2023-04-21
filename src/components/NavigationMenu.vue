@@ -6,7 +6,10 @@
         placeholder="Search  by name"
         @input="searchData($event.target.value)"
       >
-      <select @change="changeCategory($event.target.value)">
+      <select 
+        v-model="initalSelectValue"
+        @change="changeCategory($event.target.value)"
+      >
         <option value="all">
           All
         </option>
@@ -54,6 +57,7 @@
     {
       return{
         show:false,
+        initalSelectValue:""
       }
     },
           computed: {
@@ -81,6 +85,15 @@
       else
       {
         this.show = false
+      }
+      const categoryToRender =  JSON.parse(localStorage.getItem('categoryToRender'))
+      if(categoryToRender)
+      {
+        this.initalSelectValue = categoryToRender
+      }
+      else
+      {
+        this.initalSelectValue = "starships"
       }
   },
 

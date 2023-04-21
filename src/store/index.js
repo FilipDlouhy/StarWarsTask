@@ -8,7 +8,7 @@ export default createStore({
       from:0,
       to:30
     },
-    categoryToRender:"starships",
+    categoryToRender:"all",
     showModal:false,
     idToDelete:"",
     itemToShow:{}
@@ -42,13 +42,26 @@ export default createStore({
   actions: {
     loadStarWarsDataFromLocalStorage({ commit }) {
       const starWarsData = localStorage.getItem('starWarsData');
+      const categoryToRender = JSON.parse(localStorage.getItem("categoryToRender"))
       if (starWarsData) {
+       
         const parsedData = JSON.parse(starWarsData);
-        commit('SET_STAR_WARS_DATA', parsedData);
+        const arrToRender = []
+        parsedData.map((item)=>{
+          if(item.category === categoryToRender)
+          {
+            arrToRender.push(item)
+          }
+          else if (categoryToRender === "all")
+          {
+            arrToRender.push(item)
+          }
+        })
+        commit('SET_STAR_WARS_DATA', arrToRender);
       }
     },
     async getStarWarsData({ commit }) {
-      localStorage.clear()
+      localStorage.removeItem("starWarsData")
       commit('SET_STAR_WARS_DATA', []);
       let results = []
         let url = 'https://swapi.dev/api/'
@@ -76,8 +89,35 @@ export default createStore({
           results[j] = temp
         }
         localStorage.setItem('starWarsData', JSON.stringify(results))
-
-      commit('SET_STAR_WARS_DATA', results)
+        const categoryToRender = JSON.parse(localStorage.getItem("categoryToRender"))
+        const arrToRender = []
+        if(categoryToRender)
+        {
+          results.map((item)=>{
+            if(item.category === categoryToRender)
+            {
+              arrToRender.push(item)
+            }
+          })
+        }
+        else if(categoryToRender === "all")
+        {
+          results.map((item)=>{
+              arrToRender.push(item)
+          })
+        }
+        else
+        {
+          localStorage.setItem('categoryToRender', JSON.stringify("starships"))
+          results.map((item)=>{
+            if(item.category ==="starships")
+            {
+              arrToRender.push(item)
+            }
+          })
+        }
+        console.log(arrToRender)
+      commit('SET_STAR_WARS_DATA', arrToRender)
     },
 
     renderNextSetOfItems({ commit })
@@ -184,7 +224,7 @@ export default createStore({
               arr.push(data)
           })
         }
-  
+        localStorage.setItem("categoryToRender",JSON.stringify(category))
         commit('SET_INDEX_TO_RENDER', newIdnex)
         commit('SET_CATEGORY_TO_RENDER', category)
         commit('SET_STAR_WARS_DATA', arr)
